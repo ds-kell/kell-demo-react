@@ -4,7 +4,7 @@ interface LoginRequest {
 }
 
 interface LoginSuccessResponse {
-    statusCode: number;
+    statusCode: string;
     message: string;
     data: {
         accessToken: string;
@@ -38,7 +38,6 @@ class AuthApi {
         });
 
         const jsonResponse = await response.json();
-
         if (!response.ok) {
             throw new Error(jsonResponse.message || 'Failed to login');
         }

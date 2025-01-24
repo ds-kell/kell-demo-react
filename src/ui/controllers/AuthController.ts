@@ -1,15 +1,20 @@
-import LoginUseCase from '../../useCases/auth/LoginUseCase';
 import { AuthResponse } from '../../domain/repositories/AuthRepository';
+import { NavigateFunction } from 'react-router-dom';
+
+import LoginUseCase from '../../useCases/auth/LoginUseCase';
 
 class AuthController {
     private loginUseCase: LoginUseCase;
+    private navigate: NavigateFunction;
 
-    constructor(loginUseCase: LoginUseCase) {
+    constructor(loginUseCase: LoginUseCase, navigate: NavigateFunction) {
         this.loginUseCase = loginUseCase;
+        this.navigate = navigate;
     }
 
     async login(username: string, password: string): Promise<AuthResponse> {
         const authResponse = await this.loginUseCase.execute(username, password);
+        this.navigate('/home');
         return authResponse;
     }
 }

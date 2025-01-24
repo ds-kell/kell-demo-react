@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthRepositoryImpl from '../../infrastructure/repositories/AuthRepositoryImpl';
 import LoginUseCase from '../../useCases/auth/LoginUseCase';
 import AuthController from '../controllers/AuthController';
@@ -15,10 +16,10 @@ const useLogin = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [userData, setUserData] = useState<AuthResponse | null>(null);
-
+    const navigate = useNavigate();
     const authRepository = new AuthRepositoryImpl();
     const loginUseCase = new LoginUseCase(authRepository);
-    const authController = new AuthController(loginUseCase);
+    const authController = new AuthController(loginUseCase, navigate);
 
     const login = async (username: string, password: string) => {
         setLoading(true);
