@@ -8,17 +8,15 @@ import Navbar from './ui/components/Navbar/Navbar';
 // FunctionComponent
 const App: React.FC = () => {
   return (
-    <div>
-      <Navbar/>
-       <Router>
-        <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/home" element={<Home />} />
-        </Routes>
-       </Router>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

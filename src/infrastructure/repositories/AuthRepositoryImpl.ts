@@ -5,7 +5,7 @@ import { AuthResponse } from '../../domain/repositories/AuthRepository';
 class AuthRepositoryImpl implements AuthRepository {
     async login(username: string, password: string): Promise<AuthResponse> {
         const response = await AuthApi.login({ username, password });
-        if ('statusCode' in response && response.statusCode == 'CREATED') {
+        if ('statusCode' in response && response.statusCode == 'OK') {
             return {
                 accessToken: response.data.accessToken,
                 refreshToken: response.data.refreshToken,
