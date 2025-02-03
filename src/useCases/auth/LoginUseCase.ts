@@ -1,5 +1,5 @@
 import AuthRepository from '../../domain/repositories/AuthRepository';
-import { AuthResponse } from '../../domain/repositories/AuthRepository';
+import { AuthResponse } from '../../domain/types/AuthContextType';
 
 class LoginUseCase {
     constructor(private authRepository: AuthRepository) {}
@@ -8,7 +8,6 @@ class LoginUseCase {
         if (!username || !password) {
             throw new Error('Username and password are required');
         }
-
         return await this.authRepository.login(username, password);
     }
 }

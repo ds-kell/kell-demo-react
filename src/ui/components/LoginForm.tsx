@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { CookiesProvider, useCookies } from 'react-cookie';
+
 import useLogin from '../hooks/useLogin';
 
 const LoginForm = () => {
+    const [cookies, setCookie] = useCookies(['accessToken']);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { login, loading, error, userData } = useLogin();

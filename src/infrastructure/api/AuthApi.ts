@@ -1,27 +1,4 @@
-interface LoginRequest {
-    username: string;
-    password: string;
-}
-
-interface LoginSuccessResponse {
-    statusCode: string;
-    message: string;
-    data: {
-        accessToken: string;
-        refreshToken: string;
-        type: string;
-        username: string;
-        authorities: string[];
-    };
-}
-
-interface LoginErrorResponse {
-    timestamp: number;
-    status: number;
-    error: string;
-    message: string;
-    path: string;
-}
+import { LoginRequest, LoginSuccessResponse, LoginErrorResponse } from "../../domain/types/AuthContextType";
 
 type LoginResponse = LoginSuccessResponse | LoginErrorResponse;
 
@@ -31,6 +8,7 @@ class AuthApi {
     static async login(data: LoginRequest): Promise<LoginResponse> {
         const response = await fetch(`${this.BASE_URL}/login`, {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
             },

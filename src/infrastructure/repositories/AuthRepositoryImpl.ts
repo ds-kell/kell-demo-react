@@ -1,11 +1,11 @@
 import AuthApi from '../api/AuthApi';
 import AuthRepository from '../../domain/repositories/AuthRepository';
-import { AuthResponse } from '../../domain/repositories/AuthRepository';
+import { AuthResponse } from '../../domain/types/AuthContextType';
 
 class AuthRepositoryImpl implements AuthRepository {
     async login(username: string, password: string): Promise<AuthResponse> {
         const response = await AuthApi.login({ username, password });
-        if ('statusCode' in response && response.statusCode == 'CREATED') {
+        if ('statusCode' in response && (response.statusCode == 'CREATED' || response.statusCode == 'OK')) {
             return {
                 accessToken: response.data.accessToken,
                 refreshToken: response.data.refreshToken,

@@ -3,14 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthRepositoryImpl from '../../infrastructure/repositories/AuthRepositoryImpl';
 import LoginUseCase from '../../useCases/auth/LoginUseCase';
 import AuthController from '../controllers/AuthController';
-
-interface AuthResponse {
-    accessToken: string;
-    refreshToken: string;
-    type: string;
-    username: string;
-    authorities: string[];
-}
+import  { AuthResponse }  from '../../domain/types/AuthContextType'
 
 const useLogin = () => {
     const [loading, setLoading] = useState(false);

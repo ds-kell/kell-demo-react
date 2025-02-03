@@ -1,6 +1,5 @@
-import { AuthResponse } from '../../domain/repositories/AuthRepository';
+import { AuthResponse } from '../../domain/types/AuthContextType';
 import { NavigateFunction } from 'react-router-dom';
-
 import LoginUseCase from '../../useCases/auth/LoginUseCase';
 
 class AuthController {
