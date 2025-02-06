@@ -16,7 +16,6 @@ class AuthApi {
         });
 
         const jsonResponse = await response.json();
-        debugger
         if (!response.ok) {
             throw new Error(jsonResponse.message || 'Failed to login');
         }

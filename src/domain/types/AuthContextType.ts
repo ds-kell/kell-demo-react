@@ -2,8 +2,8 @@ import { User } from '../entities/User'
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: User | null;
-  login: (username: string, password: string) => Promise<void>;
+  username: string | null;
+  login: (username: string, password: string) => Promise<AuthResponse>;
   logout: () => void;
 }
 export type { AuthContextType };
