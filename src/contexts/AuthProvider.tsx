@@ -6,6 +6,7 @@ import { AuthContextType, UserProfile, AuthResponse } from "../domain/types/Auth
 import GetUserUseCase from "../useCases/GetUserUseCase";
 import LoginUseCase from "../useCases/auth/LoginUseCase";
 import LogOutUseCase from "../useCases/auth/LogOutUseCase";
+import RefreshTokenUseCase from "../useCases/auth/RefreshTokenUseCase";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -14,6 +15,7 @@ interface AuthProviderProps {
     loginUseCase: LoginUseCase;
     logoutUseCase: LogOutUseCase;
     getUserUseCase: GetUserUseCase;
+    refreshTokenUseCase: RefreshTokenUseCase
   }
   
   export const AuthProvider: React.FC<AuthProviderProps> = ({ children, loginUseCase, logoutUseCase, getUserUseCase }) => {
