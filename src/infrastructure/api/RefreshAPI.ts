@@ -1,25 +1,33 @@
-import { LoginSuccessResponse, LoginErrorResponse } from "../../domain/types/AuthContextType";
+import { LoginSuccessResponse, LoginErrorResponse, NoAuthentication } from "../../domain/types/AuthContextType";
 
 type LoginResponse = LoginSuccessResponse | LoginErrorResponse;
 
 class RefreshAPI {
-    private static BASE_URL = 'http://localhost:8088/api/public/auth';
-
-    static async refresh(): Promise<LoginResponse> {
-        const response = await fetch(`${this.BASE_URL}/refresh-token`, {
-            method: 'POST',
-            credentials: "include",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const jsonResponse = await response.json();
-        if (!response.ok) {
-            throw new Error(jsonResponse.message || 'Failed to login');
+    static async refresh(): Promise<any> {
+        try {
+            const response = await fetch('http://localhost:8088/api/private/auth/refresh-token', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const jsonResponse = await response.json();
+            console.log(jsonResponse);
+            if (!response.ok) {
+                return jsonResponse as LoginErrorResponse;
+            }
+            return jsonResponse as LoginSuccessResponse;
+        } catch (error) {
+            const fallbackError: NoAuthentication = {
+                path: "/api/private/auth/refresh-token",
+                error: "Network Error",
+                message: "Unable to reach the server",
+                status: 500,
+            };
+            debugger
+            return fallbackError;
         }
-
-        return jsonResponse as LoginSuccessResponse;
     }
 }
 

@@ -5,12 +5,14 @@ import Home from './ui/components/Home';
 import Navbar from './ui/components/Navbar/Navbar';
 import { useAuth } from "./contexts/AuthProvider";
 
-// FunctionComponent
 const App: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         {!isAuthenticated ? (
@@ -25,7 +27,7 @@ const App: React.FC = () => {
           </>
         )}
       </Routes>
-    </Router>
+    </>
   );
 };
 

@@ -5,7 +5,8 @@ import { UserProfile } from '../../domain/types/AuthContextType';
 class UserRepositoryImpl implements UserRepository {
     async getUser(): Promise<UserProfile> {
         const response = await GetUserApi.getUser();
-        if ('statusCode' in response && (response.statusCode == 'CREATED' || response.statusCode == 'OK')) {
+        //'status' in response && (response.status == 'CREATED' || response.status == 'OK')
+        if (false) {
             return {
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,

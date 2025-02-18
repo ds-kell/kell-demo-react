@@ -5,6 +5,7 @@ interface AuthContextType {
   username: string | null;
   login: (username: string, password: string) => Promise<AuthResponse>;
   logout: () => void;
+  isLoading: boolean;
 }
 export type { AuthContextType };
 
@@ -27,7 +28,7 @@ export type { LoginRequest };
 
 
 interface LoginSuccessResponse {
-    statusCode: string;
+    status: string;
     message: string;
     data: {
         accessToken: string;
@@ -46,6 +47,13 @@ interface LoginErrorResponse {
     error: string;
     message: string;
     path: string;
+    data: {
+        accessToken: string;
+        refreshToken: string;
+        type: string;
+        username: string;
+        authorities: string[];
+    };
 }
 export type { LoginErrorResponse };
 
@@ -58,3 +66,12 @@ interface UserProfile {
     authorities: string[];
 }
 export type { UserProfile };
+
+
+interface NoAuthentication {
+    path: string;
+    error: string;
+    message: string;
+    status: number;
+}
+export type { NoAuthentication };

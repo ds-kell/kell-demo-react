@@ -15,59 +15,61 @@ interface AuthProviderProps {
     loginUseCase: LoginUseCase;
     logoutUseCase: LogOutUseCase;
     getUserUseCase: GetUserUseCase;
-    refreshTokenUseCase: RefreshTokenUseCase
-  }
-  
-  export const AuthProvider: React.FC<AuthProviderProps> = ({ children, loginUseCase, logoutUseCase, getUserUseCase }) => {
-    const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
-    const [user, setUser] = useState<UserProfile | null>(null);
-    const [username, setUserName] = useState<string | null>(null);
-    const isAuthenticated = !!cookies.accessToken;
-    const accessToken = Cookies.get('accessToken');
-  debugger
-    useEffect(() => {
-      if (isAuthenticated) {
-        const fetchUser = async () => {
+    refreshTokenUseCase: RefreshTokenUseCase;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children, loginUseCase, logoutUseCase, getUserUseCase, refreshTokenUseCase }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [username, setUserName] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+      const checkAuth = async () => {
           try {
-            const userProfile = await getUserUseCase.execute();
-            setUser(userProfile);
+              const userProfile = await refreshTokenUseCase.execute();
+              setUser(userProfile);
+              setIsAuthenticated(true);
           } catch (error) {
-            console.error("Failed to fetch user profile:", error);
-            removeCookie('accessToken');
-            setUser(null);
+              console.error("Failed to fetch user profile:", error);
+              setIsAuthenticated(false);
+              setUser(null);
+          } finally {
+              setIsLoading(false);
           }
-        };
-  
-        fetchUser();
-      }
-    }, [isAuthenticated]);
-  
-    const login = async (username: string, password: string): Promise<AuthResponse> => {
+      };
+
+      checkAuth();
+  }, []);
+
+  const login = async (username: string, password: string): Promise<AuthResponse> => {
       try {
-        const authResponse = await loginUseCase.execute(username, password);
-        setUserName(authResponse.username);
-        return authResponse;
+          const authResponse = await loginUseCase.execute(username, password);
+          setUserName(authResponse.username);
+          setIsAuthenticated(true);
+          return authResponse;
       } catch (error) {
-        console.error("Login failed:", error);
-        throw error;
+          console.error("Login failed:", error);
+          throw error;
       }
-    };
-  
-    const logout = () => {
-      try {
-        // logoutUseCase.execute();
-        removeCookie('accessToken');
-        setUser(null);
-      } catch (error) {
-        console.error("Logout failed:", error);
-      }
-    };
-  
-    return (
-      <AuthContext.Provider value={{ isAuthenticated, username, login, logout }}>
-        {children}
-      </AuthContext.Provider>
-    );
   };
-  
-  export const useAuth = () => useContext(AuthContext)!;
+
+  const logout = () => {
+      try {
+          // logoutUseCase.execute();
+          removeCookie('accessToken');
+          setUser(null);
+          setIsAuthenticated(false);
+      } catch (error) {
+          console.error("Logout failed:", error);
+      }
+  };
+
+  return (
+      <AuthContext.Provider value={{ isAuthenticated, username, login, logout, isLoading }}>
+          {children}
+      </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext)!;

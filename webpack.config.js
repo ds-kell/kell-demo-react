@@ -30,6 +30,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    historyApiFallback: true,
     static: './dist',
     hot: true,
   },

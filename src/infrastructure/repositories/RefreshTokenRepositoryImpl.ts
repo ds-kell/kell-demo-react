@@ -6,7 +6,8 @@ import RefreshAPI from '../api/RefreshAPI';
 class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     async  refresh(): Promise<AuthResponse> {
         const response = await RefreshAPI.refresh();
-        if ('statusCode' in response && (response.statusCode == 'CREATED' || response.statusCode == 'OK')) {
+        // 'status' in response && (response.status == 'CREATED' || response.status == 'OK')
+        if (false) {
             return {
                 accessToken: response.data.accessToken,
                 refreshToken: response.data.refreshToken,

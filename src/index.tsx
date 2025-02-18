@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { HashRouter, BrowserRouter } from 'react-router-dom';
+
 import GetUserUseCase from "./useCases/GetUserUseCase";
 import LoginUseCase from "./useCases/auth/LoginUseCase";
 import LogOutUseCase from "./useCases/auth/LogOutUseCase";
@@ -22,13 +24,15 @@ const refreshTokenUseCase = new RefreshTokenUseCase(refreshTokenRepository);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-      <AuthProvider
-        getUserUseCase={getUserUseCase}
-        loginUseCase={loginUseCase}
-        logoutUseCase={logoutUseCase}
-        refreshTokenUseCase={refreshTokenUseCase}
-      >
-        <App />
-      </AuthProvider>
+      <BrowserRouter>
+        <AuthProvider
+          getUserUseCase={getUserUseCase}
+          loginUseCase={loginUseCase}
+          logoutUseCase={logoutUseCase}
+          refreshTokenUseCase={refreshTokenUseCase}
+        >
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
     </React.StrictMode>
   );

@@ -19,8 +19,9 @@ const useLogin = () => {
         setError(null);
         try {
             const userData = await authController.login(username, password);
-            localStorage.setItem('accessToken', userData.accessToken);
-            localStorage.setItem('refreshToken', userData.refreshToken);
+            if(userData){
+                localStorage.setItem('loggedIn', "true");
+            }
             setUserData(userData);
             return userData;
         } catch (err) {
